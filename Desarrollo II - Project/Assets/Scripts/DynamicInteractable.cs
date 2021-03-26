@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DynamicInteractable : MonoBehaviour, IInteractable
 {
+    [SerializeField] private bool _hasMultipleAnimations = false;
+
     private Animator _objectAnimator;
     private bool _hadInteracted = false;
 
@@ -14,23 +16,26 @@ public class DynamicInteractable : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        print($"Interactuando con {this.gameObject.name}");
-        ExecuteObjectAnimation();
+        if (_hasMultipleAnimations) { ExecuteObjectMultiplesAnimations(); }
+        else { ExecuteObjectSingleAnimation(); }
     }
 
-    private void ExecuteObjectAnimation()
+    private void ExecuteObjectMultiplesAnimations()
     {
         if (!_hadInteracted)
         {
             _objectAnimator.SetInteger("Open", 1);
             _hadInteracted = true;
-            print("_objectAnimator.SetBool(Open, true)");
         }
         else
         {
             _objectAnimator.SetInteger("Open", -1);
             _hadInteracted = false;
-            print("_objectAnimator.SetBool(Open, false)");
         }
+    }
+
+    private void ExecuteObjectSingleAnimation()
+    {
+        _objectAnimator.Play("BaseAnimation");
     }
 }
