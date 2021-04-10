@@ -14,7 +14,7 @@ public class DynamicInteractable : MonoBehaviour, IInteractable
         _objectAnimator = GetComponent<Animator>();
     }
 
-    public void Interact()
+    public void Interact(GameObject playerRef)
     {
         if (_hasMultipleAnimations) { ExecuteObjectMultiplesAnimations(); }
         else { ExecuteObjectSingleAnimation(); }

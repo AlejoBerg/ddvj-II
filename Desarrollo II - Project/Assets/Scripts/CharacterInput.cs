@@ -25,13 +25,14 @@ public class CharacterInput : MonoBehaviour
 
     private void CheckInput()
     {
-        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical")) { _firstPersonControllerRef.Move(); } 
+        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical")) { _firstPersonControllerRef.ChangeFSMState(FSMStates.WALK); }
+        else { _firstPersonControllerRef.ChangeFSMState(FSMStates.IDLE); }
 
         if (Input.GetButton("Run")) { _firstPersonControllerRef.IsRunning = true; }
         else { _firstPersonControllerRef.IsRunning = false; }
 
-        if (Input.GetButtonDown("Jump")) { _firstPersonControllerRef.Jump(); }
-
         if (Input.GetButtonDown("Fire1")) { OnInteractButtonPressed.Invoke(); }
+
+        //if (Input.GetButtonDown("Jump")) { _firstPersonControllerRef.Jump(); }
     }
 }

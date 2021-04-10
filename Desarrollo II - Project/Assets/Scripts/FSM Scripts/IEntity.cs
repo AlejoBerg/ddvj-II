@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IInteractable
+public interface IEntity 
 {
-    void Interact(GameObject playerRef);
+    void Idle();
+    void Move();
+    void Jump();
 }

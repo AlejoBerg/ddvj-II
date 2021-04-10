@@ -35,7 +35,7 @@ public class InteractSystem : MonoBehaviour
     {
         if (HasItemTargetted())
         {
-            _itemBeingPicked.GetComponent<IInteractable>().Interact();
+            _itemBeingPicked.GetComponent<IInteractable>().Interact(this.gameObject);
         }
     }
 
@@ -62,6 +62,7 @@ public class InteractSystem : MonoBehaviour
         }
         else
         {
+            _itemBeingPicked = null;
             _pickupImageRoot.SetActive(false);
         }
     }

@@ -2,40 +2,52 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class StaticInteractable : MonoBehaviour, IInteractable
 {
     [SerializeField] private float _rotationSpeed = 100;
-    private bool _isDragging = false;
-    private Rigidbody _objectRB = null;
 
-    private void Start()
-    {
-        _objectRB = this.GetComponent<Rigidbody>();
-    }
+    private FirstPersonController _fpcRef;
+    private bool _isInteracting = false;
+    private Vector3 _initialPosition = Vector3.zero;
 
     private void Update()
     {
-        if (Input.GetButtonUp("Fire1")) 
+        if (_isInteracting)
         {
-            _isDragging = false;
+            _fpcRef.ChangeFSMState(FSMStates.EXAMINE);
+            this.transform.Rotate(new Vector3(Input.GetAxis("Mouse Y"), -Input.GetAxis("Mouse X"), 0) * Time.deltaTime * _rotationSpeed);
         }
     }
 
-    private void FixedUpdate()
+    IEnumerator MoveObject(Vector3 endPos, float time = 0.2f)
     {
-        if (_isDragging)
+        while (Vector3.Distance(endPos, this.transform.position) > 0.1f)
         {
-            float x = Input.GetAxis("Mouse X") * _rotationSpeed * Time.fixedDeltaTime;
-            float y = Input.GetAxis("Mouse Y") * _rotationSpeed * Time.fixedDeltaTime;
-
-            _objectRB.AddTorque(Vector3.down * x);
-            _objectRB.AddTorque(Vector3.right * y);
+            this.transform.position = Vector3.Lerp(this.transform.position, endPos, time);
+            yield return null;
         }
     }
 
-    public void Interact()
+    public void Interact(GameObject playerRef)
     {
-        _isDragging = true;
+        _fpcRef = playerRef.GetComponent<FirstPersonController>();
+
+        if (!_isInteracting)
+        {
+            _initialPosition = transform.position;
+
+            StartCoroutine(MoveObject(_fpcRef.ExamineObjectSocket.position));
+
+            _isInteracting = true;
+
+        }
+        else
+        {
+            StartCoroutine(MoveObject(_initialPosition));
+            _isInteracting = false;
+
+            _fpcRef.ChangeFSMState(FSMStates.IDLE);
+        }
+        
     }
 }
