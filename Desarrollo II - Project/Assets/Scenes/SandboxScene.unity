@@ -990,7 +990,6 @@ GameObject:
   - component: {fileID: 221571375}
   - component: {fileID: 221571374}
   - component: {fileID: 221571377}
-  - component: {fileID: 221571378}
   m_Layer: 8
   m_Name: Sphere (2)
   m_TagString: Untagged
@@ -1085,22 +1084,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotationSpeed: 100
---- !u!54 &221571378
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 221571372}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 1
-  m_AngularDrag: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &239404102
 GameObject:
   m_ObjectHideFlags: 0
@@ -3593,12 +3576,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraTransform: {fileID: 963194228}
-  _examineObjectSocket: {fileID: 1345256437}
   _rigidBody: {fileID: 1969036387}
   _camRotationSpeed: 5
   _camRotationMinY: -60
   _camRotationMaxY: 75
-  _camRotationSmoothSpeed: 75
+  _camRotationSmoothSpeed: 12
+  _examineObjectDistance: 0.8
   _walkSpeed: 5
   _runSpeed: 14
   _maxSpeed: 20
@@ -5061,7 +5044,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8963399877940170050}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.0034882682, y: 0.2435219, z: -0.018895512}
+  m_LocalPosition: {x: -0.003488268, y: 0.2435219, z: -0.01889551}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 543450651931565701}

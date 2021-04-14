@@ -5,10 +5,9 @@ using UnityEngine;
 public class StaticInteractable : MonoBehaviour, IInteractable
 {
     [SerializeField] private float _rotationSpeed = 100;
-
-    private FirstPersonController _fpcRef;
-    private bool _isInteracting = false;
+    private FirstPersonController _fpcRef = null;
     private Vector3 _initialPosition = Vector3.zero;
+    private bool _isInteracting = false;
 
     private void Update()
     {
@@ -16,15 +15,6 @@ public class StaticInteractable : MonoBehaviour, IInteractable
         {
             _fpcRef.ChangeFSMState(FSMStates.EXAMINE);
             this.transform.Rotate(new Vector3(Input.GetAxis("Mouse Y"), -Input.GetAxis("Mouse X"), 0) * Time.deltaTime * _rotationSpeed);
-        }
-    }
-
-    IEnumerator MoveObject(Vector3 endPos, float time = 0.2f)
-    {
-        while (Vector3.Distance(endPos, this.transform.position) > 0.1f)
-        {
-            this.transform.position = Vector3.Lerp(this.transform.position, endPos, time);
-            yield return null;
         }
     }
 
@@ -36,10 +26,11 @@ public class StaticInteractable : MonoBehaviour, IInteractable
         {
             _initialPosition = transform.position;
 
-            StartCoroutine(MoveObject(_fpcRef.ExamineObjectSocket.position));
+            var cameraPos = _fpcRef.CameraTransform.position;
+            var newObjectPos = cameraPos + (_fpcRef.CameraTransform.forward * _fpcRef.ExamineObjectDistance);
 
+            StartCoroutine(MoveObject(newObjectPos));
             _isInteracting = true;
-
         }
         else
         {
@@ -48,6 +39,15 @@ public class StaticInteractable : MonoBehaviour, IInteractable
 
             _fpcRef.ChangeFSMState(FSMStates.IDLE);
         }
-        
+
+    }
+
+    IEnumerator MoveObject(Vector3 endPos, float time = 0.2f)
+    {
+        while (Vector3.Distance(endPos, this.transform.position) > 0.1f)
+        {
+            this.transform.position = Vector3.Lerp(this.transform.position, endPos, time);
+            yield return null;
+        }
     }
 }

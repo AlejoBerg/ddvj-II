@@ -12,7 +12,6 @@ public class FirstPersonController : MonoBehaviour, IEntityPlayer
     #region VisibleOnInspector_Variables
     [Header("Object References")]
     [SerializeField] private Transform _cameraTransform = null;
-    [SerializeField] private Transform _examineObjectSocket = null;
     [SerializeField] private Rigidbody _rigidBody = null;
 
     [Header("Camera values")]
@@ -20,6 +19,8 @@ public class FirstPersonController : MonoBehaviour, IEntityPlayer
     [SerializeField] private float _camRotationMinY = -60f;
     [SerializeField] private float _camRotationMaxY = 75f;
     [SerializeField] private float _camRotationSmoothSpeed = 10f;
+    [Range(0.1f, 1f)]
+    [SerializeField] private float _examineObjectDistance = 0.5f;
     
     [Header("Player values")]
     [SerializeField] private float _walkSpeed = 9f;
@@ -40,7 +41,8 @@ public class FirstPersonController : MonoBehaviour, IEntityPlayer
     private bool _isRunning;
 
     public bool IsRunning { get => _isRunning; set => _isRunning = value; }
-    public Transform ExamineObjectSocket { get => _examineObjectSocket; }
+    public Transform CameraTransform { get => _cameraTransform; }
+    public float ExamineObjectDistance { get => _examineObjectDistance; }
     #endregion
 
     private void Start()
