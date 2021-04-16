@@ -9,6 +9,11 @@ public class StaticInteractable : MonoBehaviour, IInteractable
     private Vector3 _initialPosition = Vector3.zero;
     private bool _isInteracting = false;
 
+    private void Start()
+    {
+        _initialPosition = transform.position;
+    }
+
     private void Update()
     {
         if (_isInteracting)
@@ -24,8 +29,6 @@ public class StaticInteractable : MonoBehaviour, IInteractable
 
         if (!_isInteracting)
         {
-            _initialPosition = transform.position;
-
             var cameraPos = _fpcRef.CameraTransform.position;
             var newObjectPos = cameraPos + (_fpcRef.CameraTransform.forward * _fpcRef.ExamineObjectDistance);
 
